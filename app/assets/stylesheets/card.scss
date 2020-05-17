@@ -1,0 +1,30 @@
+.cardContainer {
+  display: flex;
+  justify-content: space-around;
+  width: 100vw;
+  .card {
+    width: 150px;
+    height: 100px;
+    background-color: white;
+    box-shadow: 3px 2px 12px -2px rgba(175, 175, 175, 0.67);
+    border-radius: 3px;
+    position: absolute;
+    right: 10vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &:last-child {
+      right: 15vw;
+      top: 30vh;
+      z-index: 1;
+    }
+
+    .close {
+      position: absolute;
+      right: 6%;
+      top: 6%;
+      font-size: 20px;
+    }
+  }
+}
