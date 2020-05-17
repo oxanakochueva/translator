@@ -124,6 +124,7 @@ export default class Translate extends React.Component {
           <select value={this.state.langFrom} onChange={this.handleChangeFrom}>
             {ui}
           </select>
+          <div className="arrow">→</div>
           <select value={this.state.langTo} onChange={this.handleChangeTo}>
             {ui}
           </select>
