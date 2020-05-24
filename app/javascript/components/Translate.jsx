@@ -23,21 +23,20 @@ export default class Translate extends React.Component {
 
   //////////////fetch
 
-  translateText(translatedText) {
-    let data = {
+  translateText(text) {
+    const data = {
       lang: this.state.langFrom + '-' + this.state.langTo,
-      text: this.state.textToTranslate,
-      translatedText: ''
+      text: this.state.textToTranslate
     }
 
-    fetch(`http://localhost:3000/translate/translate.json`, {
+    fetch(`http://localhost:3000/translate/translate`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(data)
     })
-      .then(response => response.json())
+      // .then(response => response.json())
       .then(data => {
         console.log('Success:', data)
         this.setState({ translatedText: data })
