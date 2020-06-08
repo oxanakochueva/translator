@@ -45,7 +45,7 @@
 } */
 
     option {
-      -webkit-writing-mode: horizontal-tb !important;
+      -webkit-writing-mode: none;
       text-rendering: auto;
       color: -internal-light-dark-color(black, white);
       letter-spacing: normal;
@@ -58,6 +58,25 @@
       -webkit-rtl-ordering: logical;
       cursor: default;
       font: 400 11px system-ui;
+
+      &:focus {
+        outline: none;
+        outline-color: none;
+        outline-style: none;
+        outline-width: 0px;
+      }
     }
   }
+}
+
+option {
+  display: flex;
+  min-height: 30px;
+  padding: 0px 2px 1px;
+  position: absolute;
+  background-color: black !important;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 99;
 }

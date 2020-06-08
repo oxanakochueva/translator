@@ -1,3 +1,13 @@
+#contentEditable {
+  .textInput {
+    height: 100px;
+    line-height: 100px;
+    font-size: 50px;
+    background: lightgrey;
+  }
+}
+
+/////////////////////
 form {
   position: relative;
   top: 6vh;
@@ -15,5 +25,42 @@ form {
   }
   .button {
     width: 80px;
+  }
+}
+
+#result {
+  margin-top: 100px;
+
+  .word {
+    display: flex;
+    flex-direction: row;
+
+    .wordTranscription {
+      color: #ec0dd1;
+    }
+
+    .wordPos {
+    }
+    .wordIrregular {
+      color: #c1c1c1;
+    }
+  }
+
+  .translatedText {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    font-family: Helvetica;
+    font-weight: 300;
+    font-size: 17px;
+    line-height: 133%;
+    margin-bottom: 10px;
+    .translatedTextSynonims {
+      display: flex;
+      flex-direction: row;
+    }
+    .translatedTextMeaning {
+      color: #a408ca;
+    }
   }
 }

@@ -7,7 +7,18 @@ export default class Dictionary extends React.Component {
   constructor(props) {
     super(props)
   }
+
   render() {
-    return <div>🔱</div>
+    //     for (const prop in data) {
+    //     // `prop` contains the name of each property, i.e. `'code'` or `'items'`
+    //     // consequently, `data[prop]` refers to the value of each property, i.e.
+    //     // either `42` or the array
+    // }
+
+    return (
+      <div>
+        <div>{this.props.text}</div>
+      </div>
+    )
   }
 }

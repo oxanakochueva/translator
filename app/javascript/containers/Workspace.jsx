@@ -8,9 +8,6 @@ import Dictionary from '../components/Dictionary'
 import Cards from '../components/Cards'
 //import Changer from '../components/Changer'
 
-let textToTranslate
-let translatedText
-
 const languages = [
   {
     languageName: 'English',
@@ -62,8 +59,7 @@ export default class Workspace extends React.Component {
   render() {
     return (
       <div>
-        <Translate languages={languages} text={textToTranslate} />
-        <Dictionary text={translatedText} />
+        <Translate languages={languages} />
         <Cards />
       </div>
     )
