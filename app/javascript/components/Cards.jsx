@@ -8,12 +8,14 @@ export default class Cards extends React.Component {
   }
 
   render() {
-    return (
-      <section id="contentEditable">
-        <div className="textInput" contentEditable="true"></div>
-        <div className="cardContainer"></div>
-        <div className="putTextToContentEditable">Put Text</div>
-      </section>
-    )
+    return <div className="cardContainer"></div>
   }
 }
+// <div className="card">
+//   <p>example</p>
+//   <div className="close">×</div>
+// </div>
+// <div className="card">
+//   <p>example</p>
+//   <div className="close">×</div>
+// </div>

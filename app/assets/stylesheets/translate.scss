@@ -1,35 +1,59 @@
 #contentEditable {
-  .textInput {
-    height: 100px;
-    line-height: 100px;
-    font-size: 50px;
-    background: lightgrey;
-  }
-}
-
-/////////////////////
-form {
+  height: 100px;
+  width: 80vw;
+  text-overflow: ellipsis;
+  line-height: 133%;
   position: relative;
   top: 6vh;
-  left: 3vw;
+  left: 7vw;
   display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
-  .input {
-    font-size: 100px;
-    border: none;
-    font-weight: 300;
+  flex-direction: row;
+  font-size: 100px;
+  border: none;
+  font-weight: 300;
+  font-family: Helvetica;
+
+  .placeholder {
+    width: 80vw;
+    text-overflow: fade;
+    &:empty::before {
+      content: 'Write here to translate';
+      color: #c5c5c5;
+      position: relative;
+    }
     &:focus {
       outline: none;
     }
   }
   .button {
-    width: 80px;
+    width: 55px;
+    height: 55px;
+    background: white;
+    box-shadow: 3px 2px 12px -2px rgba(175, 175, 175, 0.67);
+    border: none;
+    border-radius: 33px;
+    font-size: 22px;
+    line-height: 55px;
+    text-align: center;
+    position: absolute;
+    top: 7vh;
+    left: -76px;
+    cursor: pointer;
+    &:hover {
+      background: #fbfbfba3;
+      box-shadow: 3px 2px 12px -2px rgba(236, 13, 209, 0.67);
+    }
+
+    &:focus {
+      outline: none;
+    }
   }
 }
 
 #result {
   margin-top: 100px;
+  position: relative;
+  left: 7vw;
 
   .word {
     display: flex;
@@ -58,9 +82,18 @@ form {
     .translatedTextSynonims {
       display: flex;
       flex-direction: row;
+
+      .translatedTextNumber {
+        font-size: 13px;
+        font-weight: 400;
+        margin-right: 4px;
+        text-align: center;
+      }
     }
     .translatedTextMeaning {
       color: #a408ca;
+      display: flex;
+      flex-direction: row;
     }
   }
 }
