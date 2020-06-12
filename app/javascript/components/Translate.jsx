@@ -387,9 +387,7 @@ export default class Translate extends React.Component {
           <Dictionary text={translatedText} />
           <div>{tr}</div>
         </div>
-        <div className="cardContainer">
-          <div>{card}</div>
-        </div>
+        <div className="cardContainer">{card}</div>
       </div>
     )
   }
