@@ -151,40 +151,50 @@ export default class Translate extends React.Component {
   }
 
   handleChangeFrom(e) {
-    // this.setState({ langFrom: e.target.dataset.value })
     e.preventDefault()
-    this.setState({ langFrom: e.target.value })
+    this.setState({ langFrom: e.target.dataset.value })
+    // console.log(this.openedFrom.current)
+
+    // this.setState({ langFrom: e.target.value })
   }
 
   handleChangeTo(e) {
-    // this.setState({ langTo: e.target.dataset.value })
     e.preventDefault()
-    this.setState({ langTo: e.target.value })
+    this.setState({ langTo: e.target.dataset.value })
+    // console.log(this.openedTo.current)
+
+    // this.setState({ langTo: e.target.value })
   }
 
   toggleSelect(e) {
-    console.log(e.target)
-    if (this.openedFrom.current) {
+    let name = e.target.dataset.name
+    console.log(name)
+
+    if (name == 'openedFrom') {
       this.openedFrom.current.classList.toggle('opened')
-    } else if (this.openedTo.current) {
+    } else if (name == 'openedTo') {
       this.openedTo.current.classList.toggle('opened')
     }
     // this.opened.current.classList.toggle('opened')
+    // this.setState({
+    //   term: e.target.dataset.name
+    // })
   }
 
   handleChangeFake(e) {
     e.preventDefault()
     console.log(e.target.dataset.value)
-    console.log(e.target.ref)
+    console.log(this.ref)
+    console.log(this.openedTo)
+    console.log(this.opened)
+    let prop = e.target.dataset.value
 
-    if (this.openedFrom.current) {
+    if ((this.state.term = 'openedFrom')) {
       console.log('from', e.target.dataset.value)
-      // this.handleChangeFrom(e)
-      this.setState({ langFrom: e.target.dataset.value })
-    } else if (this.openedTo.current) {
+      this.setState({ langFrom: prop })
+    } else if ((this.state.term = 'openedTo')) {
       console.log('to', e.target.dataset.value)
-      this.setState({ langTo: e.target.dataset.value })
-      // this.handleChangeTo(e)
+      this.setState({ langTo: prop })
     }
   }
 
@@ -291,11 +301,20 @@ export default class Translate extends React.Component {
       </option>
     ))
 
-    const uiFake = languages.map((language, i) => (
+    const uiFakeFrom = languages.map((language, i) => (
       <li
         key={i}
         data-value={language.languageUi}
-        onClick={this.handleChangeFake}
+        onClick={this.handleChangeFrom}
+      >
+        {language.languageName}
+      </li>
+    ))
+    const uiFakeTo = languages.map((language, i) => (
+      <li
+        key={i}
+        data-value={language.languageUi}
+        onClick={this.handleChangeTo}
       >
         {language.languageName}
       </li>
@@ -379,42 +398,32 @@ export default class Translate extends React.Component {
             className="placeholder"
           />
         </section>
-
+        //{' '}
         <div className="changeLanguage">
-          <select value={this.state.langFrom} onChange={this.handleChangeFrom}>
-            {ui}
-          </select>
+          <select value={this.state.langFrom}>{ui}</select>
           <div className="arrow">→</div>
-          <select value={this.state.langTo} onChange={this.handleChangeTo}>
-            {ui}
-          </select>
+          <select value={this.state.langTo}>{ui}</select>
         </div>
         <div className="changeLanguage" style={{ bottom: '25vh' }}>
           <div className="custom">
-            <div>
-              <div className="customSelect" onClick={this.toggleSelect}>
-                <div ref={this.openedFrom}>{this.state.langFrom}</div>
-              </div>
-              <ul
-                className="customSelectLanguage"
-                ref={this.opened}
+            <div className="customSelect">
+              <div
+                onClick={this.toggleSelect}
+                data-name="openedFrom"
                 ref={this.openedFrom}
-              >
-                {uiFake}
-              </ul>
-            </div>
-            <div>
-              <div className="customSelect" onClick={this.toggleSelect}>
-                <div ref={this.openedTo}>{this.state.langTo}</div>
-              </div>
-              <ul
-                className="customSelectLanguage"
+              ></div>
+              <div
+                onClick={this.toggleSelect}
+                data-name="openedTo"
                 ref={this.openedTo}
-                ref={this.opened}
-              >
-                {uiFake}
-              </ul>
+              ></div>
             </div>
+            <ul className="customSelectLanguage" ref={this.openedFrom}>
+              {uiFakeFrom}
+            </ul>
+            <ul className="customSelectLanguage" ref={this.openedTo}>
+              {uiFakeTo}
+            </ul>
           </div>
         </div>
         <div id="result">
