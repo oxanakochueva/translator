@@ -36,10 +36,8 @@ export default class Translate extends React.Component {
       term: ''
     }
 
-    this.handleChangeText = this.handleChangeText.bind(this)
     this.handleChangeFrom = this.handleChangeFrom.bind(this)
     this.handleChangeTo = this.handleChangeTo.bind(this)
-    this.handleSubmit = this.handleSubmit.bind(this)
     this.translateText = this.translateText.bind(this)
     this.handleResponse = this.handleResponse.bind(this)
     this.handleClickCard = this.handleClickCard.bind(this)
@@ -47,7 +45,6 @@ export default class Translate extends React.Component {
     this.showError = this.showError.bind(this)
     this.dropOut = this.dropOut.bind(this)
 
-    this.handleChangeFake = this.handleChangeFake.bind(this)
     this.handleChange = this.handleChange.bind(this)
     this.fillTextToTranslate = this.fillTextToTranslate.bind(this)
     this.pasteAsPlainText = this.pasteAsPlainText.bind(this)
@@ -76,19 +73,15 @@ export default class Translate extends React.Component {
       })
         .then(response => response.json())
         .then(data => {
-          // console.log('Success:', data)
-
           if (data) {
             this.handleResponse(data)
           } else {
-            // this.showError(data)
           }
         })
     }
   }
 
   handleResponse(data) {
-    // document.getElementById('result').innerHTML = data.text[0]
     this.setState({
       translatedText: data.text[0]
     })
@@ -137,33 +130,18 @@ export default class Translate extends React.Component {
       })
   }
   //////////////////////
-
-  handleChangeText(e) {
-    e.preventDefault()
-    this.setState({
-      textToTranslate: e.target.value
-    })
-  }
-
-  handleSubmit(e) {
-    e.preventDefault()
-    this.translateText(this.state.textToTranslate)
-  }
-
   handleChangeFrom(e) {
     e.preventDefault()
     this.setState({ langFrom: e.target.dataset.value })
-    // console.log(this.openedFrom.current)
-
-    // this.setState({ langFrom: e.target.value })
+    this.openedFrom.current.classList.remove('opened')
+    this.openedTo.current.classList.remove('opened')
   }
 
   handleChangeTo(e) {
     e.preventDefault()
     this.setState({ langTo: e.target.dataset.value })
-    // console.log(this.openedTo.current)
-
-    // this.setState({ langTo: e.target.value })
+    this.openedFrom.current.classList.remove('opened')
+    this.openedTo.current.classList.remove('opened')
   }
 
   toggleSelect(e) {
@@ -172,29 +150,10 @@ export default class Translate extends React.Component {
 
     if (name == 'openedFrom') {
       this.openedFrom.current.classList.toggle('opened')
+      this.openedTo.current.classList.remove('opened')
     } else if (name == 'openedTo') {
+      this.openedFrom.current.classList.remove('opened')
       this.openedTo.current.classList.toggle('opened')
-    }
-    // this.opened.current.classList.toggle('opened')
-    // this.setState({
-    //   term: e.target.dataset.name
-    // })
-  }
-
-  handleChangeFake(e) {
-    e.preventDefault()
-    console.log(e.target.dataset.value)
-    console.log(this.ref)
-    console.log(this.openedTo)
-    console.log(this.opened)
-    let prop = e.target.dataset.value
-
-    if ((this.state.term = 'openedFrom')) {
-      console.log('from', e.target.dataset.value)
-      this.setState({ langFrom: prop })
-    } else if ((this.state.term = 'openedTo')) {
-      console.log('to', e.target.dataset.value)
-      this.setState({ langTo: prop })
     }
   }
 
@@ -278,15 +237,12 @@ export default class Translate extends React.Component {
       fls
     } = this.state.dictionary
     let {
-      handleSubmit,
-      handleChangeText,
       handleChangeFrom,
       handleChangeTo,
       handleClickCard,
       deleteCard,
       translateText,
       languages,
-      handleChangeFake,
       toggleSelect,
       handleChange,
       fillTextToTranslate,
@@ -398,13 +354,14 @@ export default class Translate extends React.Component {
             className="placeholder"
           />
         </section>
-        //{' '}
-        <div className="changeLanguage">
-          <select value={this.state.langFrom}>{ui}</select>
+        <div className="changeLanguage" data-name="changeLanguage">
+          <select value={this.state.langFrom} disabled>
+            {ui}
+          </select>
           <div className="arrow">→</div>
-          <select value={this.state.langTo}>{ui}</select>
-        </div>
-        <div className="changeLanguage" style={{ bottom: '25vh' }}>
+          <select value={this.state.langTo} disabled>
+            {ui}
+          </select>
           <div className="custom">
             <div className="customSelect">
               <div

@@ -42,12 +42,12 @@ const languages = [
     languageUi: 'sv'
   },
   {
-    languageName: 'Japanese',
-    languageUi: 'ja'
+    languageName: 'Italian',
+    languageUi: 'it'
   },
   {
-    languageName: 'Chinese',
-    languageUi: 'zh'
+    languageName: 'Czech',
+    languageUi: 'cs'
   }
 ]
 
