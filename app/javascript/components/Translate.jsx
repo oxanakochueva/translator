@@ -6,6 +6,7 @@ import 'jquery-ui-dist/jquery-ui'
 import ContentEditable from 'react-contenteditable'
 
 import Dictionary from '../components/Dictionary'
+import Select from '../components/Select'
 
 export default class Translate extends React.Component {
   constructor(props) {
@@ -19,7 +20,9 @@ export default class Translate extends React.Component {
     this.state = {
       textToTranslate: '',
       langFrom: 'en',
+      langFromName: 'English',
       langTo: 'ru',
+      langToName: 'Russian',
       translatedText: '',
       dictionary: {
         translations: [],
@@ -33,16 +36,16 @@ export default class Translate extends React.Component {
       contentEditable: '',
 
       cards: [],
-      term: ''
+      term: '',
+      ok: true,
+      fromSelectOpen: false,
+      toSelectOpen: false
     }
 
-    this.handleChangeFrom = this.handleChangeFrom.bind(this)
-    this.handleChangeTo = this.handleChangeTo.bind(this)
     this.translateText = this.translateText.bind(this)
     this.handleResponse = this.handleResponse.bind(this)
     this.handleClickCard = this.handleClickCard.bind(this)
     this.handleDictionary = this.handleDictionary.bind(this)
-    this.showError = this.showError.bind(this)
     this.dropOut = this.dropOut.bind(this)
 
     this.handleChange = this.handleChange.bind(this)
@@ -51,6 +54,7 @@ export default class Translate extends React.Component {
     this.disableNewlines = this.disableNewlines.bind(this)
     this.deleteCard = this.deleteCard.bind(this)
     this.toggleSelect = this.toggleSelect.bind(this)
+    this.handleLanguageChange = this.handleLanguageChange.bind(this)
   }
 
   //////////////fetch
@@ -60,8 +64,6 @@ export default class Translate extends React.Component {
       lang: this.state.langFrom + '-' + this.state.langTo,
       text: this.state.textToTranslate
     }
-
-    this.handleDictionary(this.state.translatedText)
 
     if (text.length > 0) {
       fetch(`http://localhost:3000/translate/translate`, {
@@ -75,7 +77,8 @@ export default class Translate extends React.Component {
         .then(data => {
           if (data) {
             this.handleResponse(data)
-          } else {
+            console.log(data)
+            this.handleDictionary(this.state.textToTranslate)
           }
         })
     }
@@ -89,12 +92,6 @@ export default class Translate extends React.Component {
       text: this.state.translatedText
     }
   }
-
-  showError(data) {
-    this.setState({
-      error: data.error
-    })
-  }
   /////////////Dictionary
 
   handleDictionary(dictionary) {
@@ -102,6 +99,7 @@ export default class Translate extends React.Component {
       lang: this.state.langFrom + '-' + this.state.langTo,
       text: this.state.textToTranslate
     }
+    console.log(dictionary)
     fetch(`http://localhost:3000/translate/dictionary`, {
       method: 'POST',
       headers: {
@@ -109,12 +107,18 @@ export default class Translate extends React.Component {
       },
       body: JSON.stringify(data)
     })
-      .then(response => response.json())
+      .then(function(response) {
+        console.log(response.statusText)
+        console.log(response.status)
+
+        if (response.status == 200) {
+          return response.json()
+        }
+      })
+
       .then(data => {
         console.log('Success:', data)
-
-        if (data) {
-          console.log(data.test)
+        if (typeof data !== 'undefined') {
           this.setState({
             dictionary: {
               translations: data.translations,
@@ -126,34 +130,47 @@ export default class Translate extends React.Component {
               fls: data.fls
             }
           })
+        } else {
+          this.setState({
+            ok: false
+          })
         }
       })
+      .catch(err => console.error(err))
   }
+
   //////////////////////
-  handleChangeFrom(e) {
-    e.preventDefault()
-    this.setState({ langFrom: e.target.dataset.value })
-    this.openedFrom.current.classList.remove('opened')
-    this.openedTo.current.classList.remove('opened')
-  }
 
-  handleChangeTo(e) {
-    e.preventDefault()
-    this.setState({ langTo: e.target.dataset.value })
-    this.openedFrom.current.classList.remove('opened')
-    this.openedTo.current.classList.remove('opened')
-  }
-
-  toggleSelect(e) {
-    let name = e.target.dataset.name
-    console.log(name)
-
+  handleLanguageChange(name, language) {
+    console.log(name, language)
     if (name == 'openedFrom') {
-      this.openedFrom.current.classList.toggle('opened')
-      this.openedTo.current.classList.remove('opened')
-    } else if (name == 'openedTo') {
-      this.openedFrom.current.classList.remove('opened')
-      this.openedTo.current.classList.toggle('opened')
+      this.setState({
+        fromSelectOpen: false,
+        toSelectOpen: false,
+        langFrom: language.languageUi,
+        langFromName: language.languageName
+      })
+    }
+    if (name == 'openedTo') {
+      this.setState({
+        fromSelectOpen: false,
+        toSelectOpen: false,
+        langTo: language.languageUi,
+        langToName: language.languageName
+      })
+    }
+  }
+
+  toggleSelect(name) {
+    if (name == 'openedFrom') {
+      this.setState({
+        fromSelectOpen: true
+      })
+    }
+    if (name == 'openedTo') {
+      this.setState({
+        toSelectOpen: true
+      })
     }
   }
 
@@ -183,11 +200,11 @@ export default class Translate extends React.Component {
   }
 
   handleClickCard(e) {
+    e.preventDefault()
     this.setState({
       contentEditable: e.target.innerHTML
     })
     setTimeout(this.fillTextToTranslate, 500)
-    e.preventDefault()
   }
 
   deleteCard(e) {
@@ -211,6 +228,7 @@ export default class Translate extends React.Component {
         e.preventDefault()
         setTimeout(this.fillTextToTranslate, 200)
       }
+      e.preventDefault()
     }
   }
 
@@ -225,7 +243,8 @@ export default class Translate extends React.Component {
       translatedText,
       dictionary,
       contentEditable,
-      term
+      term,
+      ok
     } = this.state
     let {
       translations,
@@ -250,31 +269,6 @@ export default class Translate extends React.Component {
       disableNewlines
     } = this.props
     let { languageName, languageUi } = this.props.languages
-
-    const ui = languages.map((language, i) => (
-      <option key={i} value={language.languageUi}>
-        {language.languageName}
-      </option>
-    ))
-
-    const uiFakeFrom = languages.map((language, i) => (
-      <li
-        key={i}
-        data-value={language.languageUi}
-        onClick={this.handleChangeFrom}
-      >
-        {language.languageName}
-      </li>
-    ))
-    const uiFakeTo = languages.map((language, i) => (
-      <li
-        key={i}
-        data-value={language.languageUi}
-        onClick={this.handleChangeTo}
-      >
-        {language.languageName}
-      </li>
-    ))
 
     let card = cards.map((card, i) => (
       <div key={i} className="card ui-widget-content">
@@ -308,12 +302,12 @@ export default class Translate extends React.Component {
     })
 
     let tr = translations.map((tr, i) => (
-      <div key={i} value={tr}>
+      <div className="wordBlock" key={i} value={tr}>
         <div className="word">
           <div>{texts[i]}</div>
           <div className="wordTranscription">{tss[i]}</div>
           <div className="wordIrregular">{fls[i]}</div>
-          <div>{partOfSpeech[i]}</div>
+          <div className="wordPos">{partOfSpeech[i]}</div>
         </div>
         <div className="translatedText">
           <div className="translatedTextSynonims">
@@ -325,13 +319,28 @@ export default class Translate extends React.Component {
         </div>
       </div>
     ))
-
     $(function() {
-      let i = 0
+      let l = 105
       $('.card').draggable({
         start: function(e, ui) {
-          $(this).css('z-index', i++)
+          $(this).css('z-index', l++)
         }
+      })
+
+      let docHeight = $('.cardContainer').height(),
+        docWidth = $('.cardContainer').width(),
+        $card = $('.card'),
+        cardWidth = $card.width(),
+        cardHeight = $card.height(),
+        heightMax = docHeight - cardHeight,
+        widthMax = docWidth - cardWidth,
+        $cardLast = $card.last()
+
+      $cardLast.each(function() {
+        $cardLast.css({
+          left: Math.floor(Math.random() * widthMax),
+          top: Math.floor(Math.random() * heightMax)
+        })
       })
     })
 
@@ -354,38 +363,32 @@ export default class Translate extends React.Component {
             className="placeholder"
           />
         </section>
-        <div className="changeLanguage" data-name="changeLanguage">
-          <select value={this.state.langFrom} disabled>
-            {ui}
-          </select>
-          <div className="arrow">→</div>
-          <select value={this.state.langTo} disabled>
-            {ui}
-          </select>
+        <div className="changeLanguage">
           <div className="custom">
             <div className="customSelect">
-              <div
-                onClick={this.toggleSelect}
-                data-name="openedFrom"
-                ref={this.openedFrom}
-              ></div>
-              <div
-                onClick={this.toggleSelect}
-                data-name="openedTo"
-                ref={this.openedTo}
-              ></div>
+              <Select
+                languages={this.props.languages}
+                text={this.state.langFromName}
+                handleClick={this.toggleSelect}
+                handleChange={this.handleLanguageChange}
+                name="openedFrom"
+                opened={this.state.fromSelectOpen}
+              />
+              <div className="arrow">→</div>
+              <Select
+                languages={this.props.languages}
+                text={this.state.langToName}
+                handleClick={this.toggleSelect}
+                handleChange={this.handleLanguageChange}
+                name="openedTo"
+                opened={this.state.toSelectOpen}
+              />
             </div>
-            <ul className="customSelectLanguage" ref={this.openedFrom}>
-              {uiFakeFrom}
-            </ul>
-            <ul className="customSelectLanguage" ref={this.openedTo}>
-              {uiFakeTo}
-            </ul>
           </div>
         </div>
         <div id="result">
           <Dictionary text={translatedText} />
-          <div>{tr}</div>
+          <div>{ok ? tr : ''}</div>
         </div>
         <div className="cardContainer">{card}</div>
       </div>

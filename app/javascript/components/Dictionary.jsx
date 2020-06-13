@@ -16,8 +16,9 @@ export default class Dictionary extends React.Component {
     // }
 
     return (
-      <div>
-        <div>{this.props.text}</div>
+      <div className="translation">
+        {this.props.text}
+        <div className="divider"></div>
       </div>
     )
   }

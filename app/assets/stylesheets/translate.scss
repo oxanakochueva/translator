@@ -1,3 +1,7 @@
+body {
+  transition: 0.5s ease;
+}
+
 #contentEditable {
   height: 100px;
   width: 80vw;
@@ -12,17 +16,27 @@
   border: none;
   font-weight: 300;
   font-family: Helvetica;
+  caret-color: #ec0dd1;
 
   .placeholder {
     width: 80vw;
     text-overflow: fade;
+    line-height: 133%;
     &:empty::before {
+      line-height: 133%;
+      font-size: 100px;
       content: 'Write here to translate';
       color: #c5c5c5;
       position: relative;
     }
     &:focus {
       outline: none;
+      transition: 0.1s ease;
+    }
+    &:not(:focus) {
+      font-size: 45px;
+      line-height: 45px;
+      transition: 0.05s cubic-bezier(0.76, 0.06, 0, 1.21);
     }
   }
   .button {
@@ -55,45 +69,64 @@
   position: relative;
   left: 7vw;
 
-  .word {
-    display: flex;
-    flex-direction: row;
+  /*   .divider {
+  width: 500px;
+  height: 1px;
+  background: #c5c5c5;
+} */
 
-    .wordTranscription {
-      color: #ec0dd1;
-    }
-
-    .wordPos {
-    }
-    .wordIrregular {
-      color: #c1c1c1;
-    }
-  }
-
-  .translatedText {
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    font-family: Helvetica;
-    font-weight: 300;
-    font-size: 17px;
+  .translation {
+    font-family: helvetica;
+    font-size: 20px;
     line-height: 133%;
-    margin-bottom: 10px;
-    .translatedTextSynonims {
+  }
+  .wordBlock {
+    .word {
       display: flex;
       flex-direction: row;
+      font-size: 15px;
 
-      .translatedTextNumber {
-        font-size: 13px;
-        font-weight: 400;
-        margin-right: 4px;
-        text-align: center;
+      .wordTranscription {
+        color: #ec0dd1;
+      }
+
+      .wordPos {
+        font-size: 11px;
+        line-height: 11px;
+        margin: 0 0 8px 1px;
+        color: #c5c5c5;
+      }
+      .wordIrregular {
+        color: #c1c1c1;
+        margin-left: 3px;
       }
     }
-    .translatedTextMeaning {
-      color: #a408ca;
+
+    .translatedText {
       display: flex;
-      flex-direction: row;
+      flex-direction: column;
+      flex-wrap: wrap;
+      font-family: Helvetica;
+      font-weight: 300;
+      font-size: 17px;
+      line-height: 133%;
+      margin-bottom: 10px;
+      .translatedTextSynonims {
+        display: flex;
+        flex-direction: row;
+
+        .translatedTextNumber {
+          font-size: 13px;
+          font-weight: 400;
+          margin-right: 4px;
+          text-align: center;
+        }
+      }
+      .translatedTextMeaning {
+        color: #a408ca;
+        display: flex;
+        flex-direction: row;
+      }
     }
   }
 }

@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import Translate from '../components/Translate'
 import Dictionary from '../components/Dictionary'
 
-import Cards from '../components/Cards'
+//import Cards from '../components/Cards'
 //import Changer from '../components/Changer'
 
 const languages = [
@@ -60,7 +60,6 @@ export default class Workspace extends React.Component {
     return (
       <div>
         <Translate languages={languages} />
-        <Cards />
       </div>
     )
   }

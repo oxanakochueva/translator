@@ -29,6 +29,8 @@ class TranslateController < ApplicationController
       puts JSON.parse(data)['def']
       test.push(JSON.parse(data)['def'])
 
+
+
       JSON.parse(data)['def'].each_with_index do |df, i|
         if df['pos']
          poss = Array.new
@@ -80,21 +82,21 @@ class TranslateController < ApplicationController
 
       puts translations
       puts synonims
-      json = {
-        translations: translations,
-        synonims: synonims,
-        meaning: meaning,
-        test: test,
-        partOfSpeech: partOfSpeech,
-        fls: fls,
-        texts: texts,
-        tss: tss
-      }
+        json = {
+          translations: translations,
+          synonims: synonims,
+          meaning: meaning,
+          test: test,
+          partOfSpeech: partOfSpeech,
+          fls: fls,
+          texts: texts,
+          tss: tss
+        }
+
+        render json: json
 
 
-      render json: json
-
-    end
 
 
+  end
 end
