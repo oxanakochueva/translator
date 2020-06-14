@@ -55,6 +55,9 @@ export default class Translate extends React.Component {
     this.deleteCard = this.deleteCard.bind(this)
     this.toggleSelect = this.toggleSelect.bind(this)
     this.handleLanguageChange = this.handleLanguageChange.bind(this)
+
+    this.handleClickOutside = this.handleClickOutside.bind(this)
+    this.setRef = this.setRef.bind(this)
   }
 
   //////////////fetch
@@ -174,6 +177,27 @@ export default class Translate extends React.Component {
     }
   }
 
+  componentDidMount() {
+    document.addEventListener('mousedown', this.handleClickOutside)
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('mousedown', this.handleClickOutside)
+  }
+
+  setRef(node) {
+    this.opened = node
+  }
+
+  handleClickOutside(e) {
+    if (this.opened && !this.opened.contains(e.target)) {
+      this.setState({
+        fromSelectOpen: false,
+        toSelectOpen: false
+      })
+    }
+  }
+
   /////////// dnd
 
   dropOut(e) {
@@ -264,6 +288,7 @@ export default class Translate extends React.Component {
       languages,
       toggleSelect,
       handleChange,
+      handleBlur,
       fillTextToTranslate,
       pasteAsPlainText,
       disableNewlines
@@ -365,7 +390,7 @@ export default class Translate extends React.Component {
         </section>
         <div className="changeLanguage">
           <div className="custom">
-            <div className="customSelect">
+            <div className="customSelect" ref={this.setRef}>
               <Select
                 languages={this.props.languages}
                 text={this.state.langFromName}
