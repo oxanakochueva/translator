@@ -352,21 +352,25 @@ export default class Translate extends React.Component {
         }
       })
 
-      let docHeight = $('.cardContainer').height(),
-        docWidth = $('.cardContainer').width(),
-        $card = $('.card'),
-        cardWidth = $card.width(),
-        cardHeight = $card.height(),
-        heightMax = docHeight - cardHeight,
-        widthMax = docWidth - cardWidth,
-        $cardLast = $card.last()
+      $('.button').click(function card() {
+        let docHeight = $('.cardContainer').height(),
+          docWidth = $('.cardContainer').width(),
+          $card = $('.card'),
+          cardWidth = $card.width(),
+          cardHeight = $card.height(),
+          heightMax = docHeight - cardHeight,
+          widthMax = docWidth - cardWidth,
+          $cardLast = $card.last()
 
-      $cardLast.each(function() {
-        $cardLast.css({
-          left: Math.floor(Math.random() * widthMax),
-          top: Math.floor(Math.random() * heightMax)
+        $cardLast.each(function() {
+          $cardLast.css({
+            left: Math.floor(Math.random() * widthMax),
+            top: Math.floor(Math.random() * heightMax)
+          })
         })
       })
+
+      setTimeout(card, 1000)
     })
 
     return (
