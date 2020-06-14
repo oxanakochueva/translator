@@ -352,7 +352,11 @@ export default class Translate extends React.Component {
         }
       })
 
-      $('.button').click(function card() {
+      $('.button').click(function() {
+        setTimeout(card, 100)
+      })
+
+      function card() {
         let docHeight = $('.cardContainer').height(),
           docWidth = $('.cardContainer').width(),
           $card = $('.card'),
@@ -368,9 +372,7 @@ export default class Translate extends React.Component {
             top: Math.floor(Math.random() * heightMax)
           })
         })
-      })
-
-      setTimeout(card, 1000)
+      }
     })
 
     return (
@@ -416,8 +418,13 @@ export default class Translate extends React.Component {
           </div>
         </div>
         <div id="result">
-          <Dictionary text={translatedText} />
-          <div>{ok ? tr : ''}</div>
+          <div>
+            {dictionary.translations.length == 0 ? (
+              <div className="translation">{translatedText}</div>
+            ) : (
+              <div className="dictionary">{tr}</div>
+            )}
+          </div>
         </div>
         <div className="cardContainer">{card}</div>
       </div>

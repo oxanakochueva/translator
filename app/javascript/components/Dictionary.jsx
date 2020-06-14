@@ -15,11 +15,6 @@ export default class Dictionary extends React.Component {
     //     // either `42` or the array
     // }
 
-    return (
-      <div className="translation">
-        {this.props.text}
-        <div className="divider"></div>
-      </div>
-    )
+    return <div className="translation">{this.props.text}</div>
   }
 }

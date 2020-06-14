@@ -21,7 +21,6 @@ body {
 
   .placeholder {
     width: 80vw;
-    text-overflow: fade;
     line-height: 133%;
     border-bottom: none;
     &:empty::before {
@@ -37,6 +36,9 @@ body {
     &:focus {
       outline: none;
       transition: 0.1s ease;
+      /*       overflow: scroll;
+white-space: nowrap; */
+      height: 115px;
     }
     &:not(:focus) {
       font-size: 45px;
@@ -72,61 +74,66 @@ body {
 }
 
 #result {
-  margin-top: 100px;
+  margin-top: 40px;
   position: relative;
   left: 7vw;
 
   .translation {
     font-family: helvetica;
-    font-size: 20px;
+    font-size: 45px;
+    font-weight: 100;
     line-height: 133%;
+    margin-top: 63px;
   }
-  .wordBlock {
-    .word {
-      display: flex;
-      flex-direction: row;
-      font-size: 15px;
-
-      .wordTranscription {
-        color: #ec0dd1;
-      }
-
-      .wordPos {
-        font-size: 11px;
-        line-height: 11px;
-        margin: 0 0 8px 1px;
-        color: #c5c5c5;
-      }
-      .wordIrregular {
-        color: #c1c1c1;
-        margin-left: 3px;
-      }
-    }
-
-    .translatedText {
-      display: flex;
-      flex-direction: column;
-      flex-wrap: wrap;
-      font-family: Helvetica;
-      font-weight: 300;
-      font-size: 17px;
-      line-height: 133%;
-      margin-bottom: 10px;
-      .translatedTextSynonims {
+  .dictionary {
+    margin-top: 70px;
+    .wordBlock {
+      .word {
         display: flex;
         flex-direction: row;
+        font-size: 15px;
 
-        .translatedTextNumber {
-          font-size: 13px;
-          font-weight: 400;
-          margin-right: 4px;
-          text-align: center;
+        .wordTranscription {
+          color: #ec0dd1;
+        }
+
+        .wordPos {
+          font-size: 11px;
+          line-height: 11px;
+          margin: 0 0 8px 1px;
+          color: #c5c5c5;
+        }
+        .wordIrregular {
+          color: #c1c1c1;
+          margin-left: 3px;
         }
       }
-      .translatedTextMeaning {
-        color: #a408ca;
+
+      .translatedText {
         display: flex;
-        flex-direction: row;
+        flex-direction: column;
+        flex-wrap: wrap;
+        font-family: Helvetica;
+        font-weight: 300;
+        font-size: 17px;
+        line-height: 133%;
+        margin-bottom: 10px;
+        .translatedTextSynonims {
+          display: flex;
+          flex-direction: row;
+
+          .translatedTextNumber {
+            font-size: 13px;
+            font-weight: 400;
+            margin-right: 4px;
+            text-align: center;
+          }
+        }
+        .translatedTextMeaning {
+          color: #a408ca;
+          display: flex;
+          flex-direction: row;
+        }
       }
     }
   }
